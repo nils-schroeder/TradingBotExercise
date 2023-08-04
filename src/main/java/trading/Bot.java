@@ -10,21 +10,29 @@ public class Bot implements Bidder{
     private BotState otherState;
     private Strategy strategy;
 
-    private static final String STRATEGY_NAME = "any";
+    private final String strategyName;
+
+    public Bot(){
+        this.strategyName = "any";
+    }
+
+    public Bot(String strategyName){
+        this.strategyName = strategyName;
+    }
 
     @Override
     public void init(int quantity, int cash) {
 
-        this.strategy = StrategyFactory
+        strategy = StrategyFactory
                 .getInstance()
-                .createStrategy(STRATEGY_NAME);
+                .createStrategy(strategyName);
 
-        this.ownState = new BotState(
+        ownState = new BotState(
                 quantity,
                 cash
         );
 
-        this.otherState = new BotState(
+        otherState = new BotState(
                 quantity,
                 cash
         );
@@ -33,18 +41,23 @@ public class Bot implements Bidder{
 
     @Override
     public int placeBid() {
-        return 0;
+        return strategy.determineBid(
+                ownState,
+                otherState
+        );
     }
 
     @Override
     public void bids(int own, int other) {
 
-        BotStateResolver.getInstance().resolveBids(
-                own,
-                other,
-                ownState,
-                otherState
-        );
+        BotStateResolver
+                .getInstance()
+                .resolveBids(
+                    own,
+                    other,
+                    ownState,
+                    otherState
+            );
 
     }
 }

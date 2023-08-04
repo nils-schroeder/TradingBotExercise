@@ -33,14 +33,18 @@ public class BotStateResolver {
 
         }
 
+        int totalPayout = ownAward + otherAward;
+
         ownState.update(
                 ownAward,
-                ownCash
+                ownCash,
+                totalPayout
         );
 
         otherState.update(
                 otherAward,
-                otherCash
+                otherCash,
+                totalPayout
         );
     }
 

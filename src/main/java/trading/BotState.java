@@ -1,5 +1,7 @@
 package trading;
 
+import java.util.ArrayList;
+
 public class BotState {
 
     public int getStartQuantity() {
@@ -30,6 +32,12 @@ public class BotState {
 
     private int availableQuantity;
 
+    public ArrayList<BidLogEntry> getHistory() {
+        return history;
+    }
+
+    private final ArrayList<BidLogEntry> history;
+
     public BotState(int startQuantity, int startCash) {
 
         this.startQuantity = startQuantity;
@@ -39,13 +47,22 @@ public class BotState {
         this.availableQuantity = startQuantity;
         this.cash = startCash;
 
+        this.history = new ArrayList<>();
+
     }
 
-    public void update(int receivedQuantity, int paidCash){
+    public void update(int payout, int paidCash, int totalPayout){
 
-        this.quantity += receivedQuantity;
-        this.availableQuantity -= 2;
+        this.quantity += payout;
+        this.availableQuantity -= totalPayout;
         this.cash -= paidCash;
+
+        this.history.add(
+            new BidLogEntry(
+                paidCash,
+                payout
+            )
+        );
 
     }
 
