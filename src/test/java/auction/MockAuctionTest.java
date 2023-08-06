@@ -13,7 +13,7 @@ import java.util.List;
 public class MockAuctionTest {
 
     public static final List<MockAuctionSetting> mockAuctionSetups = List.of(
-        new MockAuctionSetting(100, 10000, StrategyName.DEFAULT, StrategyName.DEFAULT)
+        new MockAuctionSetting(100, 10000, StrategyName.CONSTANT, StrategyName.DEFAULT)
       //  new MockAuctionSetting(1000, 1000, "any", "any")
     );
 

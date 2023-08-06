@@ -7,15 +7,19 @@ import engine.StrategyName;
 
 public class Bot implements Bidder{
 
-    public BotState getOwnState() {
-        return ownState;
+    public BotState getPlayerState() {
+        return playerState;
     }
 
     public BotState getOtherState() {
         return otherState;
     }
 
-    private BotState ownState;
+    public StrategyName getStrategyName() {
+        return strategyName;
+    }
+
+    private BotState playerState;
     private BotState otherState;
     private Strategy strategy;
 
@@ -32,11 +36,7 @@ public class Bot implements Bidder{
     @Override
     public void init(int quantity, int cash) {
 
-        strategy = StrategyFactory
-                .getInstance()
-                .createStrategy(strategyName);
-
-        ownState = new BotState(
+        playerState = new BotState(
                 quantity,
                 cash
         );
@@ -46,12 +46,17 @@ public class Bot implements Bidder{
                 cash
         );
 
+        strategy = StrategyFactory
+                .getInstance()
+                .createStrategy(strategyName)
+                .init(playerState, otherState);
+
     }
 
     @Override
     public int placeBid() {
         return strategy.determineBid(
-                ownState,
+                playerState,
                 otherState
         );
     }
@@ -59,12 +64,10 @@ public class Bot implements Bidder{
     @Override
     public void bids(int own, int other) {
 
-        BotStateResolver
-                .getInstance()
-                .resolveBids(
+        BotStateResolver.resolveBids(
                     own,
                     other,
-                    ownState,
+                    playerState,
                     otherState
             );
 

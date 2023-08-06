@@ -1,10 +1,8 @@
 package auction;
 
 import engine.StrategyName;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Test;
 import trading.Bot;
 
 import java.util.stream.IntStream;
@@ -61,11 +59,13 @@ public class MockAuction {
             }
         );
 
-        logger.info("RESULT: Player: [Quantity: {} | Cash: {}], Other: [Quantity: {} | Cash: {}]",
-                playerBot.getOwnState().getQuantity(),
-                playerBot.getOwnState().getCash(),
-                otherBot.getOwnState().getQuantity(),
-                otherBot.getOwnState().getCash()
+        logger.info("RESULT: {}: [Quantity: {} | Cash: {}], {}: [Quantity: {} | Cash: {}]",
+                playerBot.getStrategyName(),
+                playerBot.getPlayerState().getQuantity(),
+                playerBot.getPlayerState().getCash(),
+                otherBot.getStrategyName(),
+                otherBot.getPlayerState().getQuantity(),
+                otherBot.getPlayerState().getCash()
         );
 
 

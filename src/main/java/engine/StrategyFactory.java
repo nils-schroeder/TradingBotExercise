@@ -14,9 +14,7 @@ public class StrategyFactory {
             case FLIP:
                 return new FlipStrategy();
             case CONSTANT:
-              //  return new ConstantStrategy();
-            case ADVANCED_FLIP:
-           //     return new AdvancedFlipStrategy();
+                return new ConstantStrategy();
             case DEFAULT:
                 return new FlipStrategy();
             default:
