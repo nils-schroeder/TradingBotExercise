@@ -47,7 +47,6 @@ public class Bot implements Bidder{
         );
 
         strategy = StrategyFactory
-                .getInstance()
                 .createStrategy(strategyName)
                 .init(playerState, otherState);
 

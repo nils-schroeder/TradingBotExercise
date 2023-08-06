@@ -12,6 +12,7 @@ public abstract class Strategy {
     public void updateBetSize(BotState playerState){
 
         betSize = playerState.getCash() / (playerState.getAvailableQuantity() / 2);
+
     }
 
     public Strategy init(BotState playerState, BotState otherState){
