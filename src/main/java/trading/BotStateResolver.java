@@ -4,10 +4,10 @@ public class BotStateResolver {
 
     private static final BotStateResolver instance = new BotStateResolver();
 
-    //Avoid using division to prevent type errors when constant changes
-    private static final int WIN_REWARD = 2;
-    private static final int TIE_REWARD = 1;
-    private static final int LOSS_REWARD = 0;
+    //Avoid using division to prevent type error if constant changes
+    public static final int WIN_REWARD = 2;
+    public static final int TIE_REWARD = 1;
+    public static final int LOSS_REWARD = 0;
 
     public static BotStateResolver getInstance() {
         return instance;

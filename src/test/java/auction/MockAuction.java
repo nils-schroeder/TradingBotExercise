@@ -18,12 +18,24 @@ public class MockAuction {
         this.otherBot = new Bot();
     }
 
+    public MockAuction(MockAuctionSetting settings){
+        this.quantityTotal = settings.quantityTotal();
+        this.cashPerBot = settings.cashPerBot();
+
+        this.playerBot = new Bot(settings.playerStrategyName());
+        this.otherBot = new Bot(settings.otherStrategyName());
+    }
+
     public MockAuction(int quantityTotal, int cashPerBot, String playerStrategyName, String otherStrategyName){
         this.quantityTotal = quantityTotal;
         this.cashPerBot = cashPerBot;
 
         this.playerBot = new Bot(playerStrategyName);
         this.otherBot = new Bot(otherStrategyName);
+    }
+
+    public void run(){
+
     }
 
 }
