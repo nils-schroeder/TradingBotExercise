@@ -1,5 +1,6 @@
 package auction;
 
+
 import org.junit.Test;
 import trading.Bot;
 

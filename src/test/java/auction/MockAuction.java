@@ -1,5 +1,8 @@
 package auction;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import trading.Bot;
 
@@ -9,6 +12,8 @@ public class MockAuction {
     private final int cashPerBot;
     private Bot playerBot;
     private Bot otherBot;
+
+    private static final Logger logger = LogManager.getLogger();
 
     public MockAuction(int quantityTotal, int cashPerBot){
         this.quantityTotal = quantityTotal;
@@ -35,6 +40,8 @@ public class MockAuction {
     }
 
     public void run(){
+
+        logger.info("test");
 
     }
 
