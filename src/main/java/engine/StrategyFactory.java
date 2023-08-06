@@ -8,10 +8,20 @@ public class StrategyFactory {
         return instance;
     }
 
-    public Strategy createStrategy(String name){
+    public Strategy createStrategy(StrategyName name){
 
-        return new FlipStrategy();
-
+        switch (name){
+            case FLIP:
+                return new FlipStrategy();
+            case CONSTANT:
+              //  return new ConstantStrategy();
+            case ADVANCED_FLIP:
+           //     return new AdvancedFlipStrategy();
+            case DEFAULT:
+                return new FlipStrategy();
+            default:
+                return new FlipStrategy();
+        }
     }
 
 }

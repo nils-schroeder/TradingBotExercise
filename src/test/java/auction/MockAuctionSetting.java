@@ -1,6 +1,8 @@
 package auction;
 
+import engine.StrategyName;
+
 public record MockAuctionSetting(int quantityTotal,
                                  int cashPerBot,
-                                 String playerStrategyName,
-                                 String otherStrategyName) {}
+                                 StrategyName playerStrategyName,
+                                 StrategyName otherStrategyName) {}

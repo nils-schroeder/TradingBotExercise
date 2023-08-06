@@ -1,10 +1,13 @@
 package auction;
 
+import engine.StrategyName;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import trading.Bot;
+
+import java.util.stream.IntStream;
 
 public class MockAuction {
 
@@ -31,7 +34,7 @@ public class MockAuction {
         this.otherBot = new Bot(settings.otherStrategyName());
     }
 
-    public MockAuction(int quantityTotal, int cashPerBot, String playerStrategyName, String otherStrategyName){
+    public MockAuction(int quantityTotal, int cashPerBot, StrategyName playerStrategyName, StrategyName otherStrategyName){
         this.quantityTotal = quantityTotal;
         this.cashPerBot = cashPerBot;
 
@@ -41,7 +44,31 @@ public class MockAuction {
 
     public void run(){
 
-        logger.info("test");
+        logger.info("Running MockAuction with quantityTotal: [{}], cashPerBot: [{}]", quantityTotal, cashPerBot);
+
+        playerBot.init(quantityTotal, cashPerBot);
+        otherBot.init(quantityTotal, cashPerBot);
+
+        IntStream.range(0, (int) quantityTotal / 2).forEach(
+            i -> {
+                int playerBid = playerBot.placeBid();
+                int otherBid = otherBot.placeBid();
+
+                logger.info("[{}] Player bid: [{}], Other bid: [{}]", i, playerBid, otherBid);
+
+                playerBot.bids(playerBid, otherBid);
+                otherBot.bids(otherBid, playerBid);
+            }
+        );
+
+        logger.info("RESULT: Player: [Quantity: {} | Cash: {}], Other: [Quantity: {} | Cash: {}]",
+                playerBot.getOwnState().getQuantity(),
+                playerBot.getOwnState().getCash(),
+                otherBot.getOwnState().getQuantity(),
+                otherBot.getOwnState().getCash()
+        );
+
+
 
     }
 

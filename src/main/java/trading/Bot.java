@@ -3,20 +3,29 @@ package trading;
 import auction.Bidder;
 import engine.Strategy;
 import engine.StrategyFactory;
+import engine.StrategyName;
 
 public class Bot implements Bidder{
+
+    public BotState getOwnState() {
+        return ownState;
+    }
+
+    public BotState getOtherState() {
+        return otherState;
+    }
 
     private BotState ownState;
     private BotState otherState;
     private Strategy strategy;
 
-    private final String strategyName;
+    private final StrategyName strategyName;
 
     public Bot(){
-        this.strategyName = "any";
+        this.strategyName = StrategyName.DEFAULT;
     }
 
-    public Bot(String strategyName){
+    public Bot(StrategyName strategyName){
         this.strategyName = strategyName;
     }
 

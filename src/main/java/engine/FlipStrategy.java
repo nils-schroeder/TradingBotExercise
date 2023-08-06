@@ -7,15 +7,25 @@ import trading.BotState;
  */
 public class FlipStrategy extends Strategy{
 
+    private int betSize = -1;
+
     @Override
     public int determineBid(BotState myState, BotState enemyState) {
 
-        if(myState.getCash() > 0){
+        if(betSize == -1){
 
-            return (int) Math.round(Math.random());
+            betSize = myState.getStartCash() / (myState.getStartQuantity() / 2);
+
+        }
+
+        if(myState.getCash() >= betSize && Math.random() > 0.3){
+
+            return betSize;
 
         }else {
+
             return 0;
+
         }
 
     }

@@ -1,8 +1,13 @@
 package trading;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.ArrayList;
 
 public class BotState {
+
+    // private static final Logger logger = LogManager.getLogger();
 
     public int getStartQuantity() {
         return startQuantity;
@@ -64,6 +69,20 @@ public class BotState {
             )
         );
 
+       // logger.debug("Updated state: [{}]", this.toString());
+
+    }
+
+    @Override
+    public String toString() {
+        return "BotState{" +
+                "startQuantity=" + startQuantity +
+                ", startCash=" + startCash +
+                ", quantity=" + quantity +
+                ", cash=" + cash +
+                ", availableQuantity=" + availableQuantity +
+                ", history=" + history +
+                '}';
     }
 
 }
