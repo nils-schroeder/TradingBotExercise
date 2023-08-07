@@ -5,19 +5,25 @@ import trading.BotState;
 public abstract class Strategy {
 
 
-    protected int betSize;
+    protected int bidSize;
 
     public abstract int determineBid(BotState playerState, BotState otherState);
 
-    public void updateBetSize(BotState playerState){
+    protected int calculateBidSize(BotState playerState){
 
-        betSize = playerState.getCash() / (playerState.getAvailableQuantity() / 2);
+        return playerState.getCash() / (playerState.getAvailableQuantity() / 2);
+
+    }
+
+    protected void updateBidSize(BotState playerState){
+
+        bidSize = calculateBidSize(playerState);
 
     }
 
     public Strategy init(BotState playerState, BotState otherState){
 
-        updateBetSize(playerState);
+        updateBidSize(playerState);
 
         return this;
 

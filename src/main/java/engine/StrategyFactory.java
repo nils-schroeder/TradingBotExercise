@@ -9,8 +9,10 @@ public class StrategyFactory {
                 return new FlipStrategy();
             case CONSTANT:
                 return new ConstantStrategy();
-            case DEFAULT:
-                return new FlipStrategy();
+            case VALUE_BASED:
+                return new ValueBasedStrategy();
+            case GREEDY:
+                return new ValueBasedStrategy(1);
             default:
                 return new FlipStrategy();
         }

@@ -10,11 +10,11 @@ public class FlipStrategy extends Strategy{
     @Override
     public int determineBid(BotState playerState, BotState otherState) {
 
-        updateBetSize(playerState);
+        updateBidSize(playerState);
 
-        if(playerState.getCash() >= betSize && Math.random() > 0.3){
+        if(playerState.getCash() >= bidSize && Math.random() > 0.3){
 
-            return betSize;
+            return bidSize;
 
         }else {
 

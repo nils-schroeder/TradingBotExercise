@@ -52,7 +52,13 @@ public class MockAuction {
                 int playerBid = playerBot.placeBid();
                 int otherBid = otherBot.placeBid();
 
-                logger.info("[{}] Player bid: [{}], Other bid: [{}]", i, playerBid, otherBid);
+                logger.info("[{}] {} bid: [{}], {} bid: [{}]",
+                        i,
+                        playerBot.getStrategyName(),
+                        playerBid,
+                        otherBot.getStrategyName(),
+                        otherBid
+                );
 
                 playerBot.bids(playerBid, otherBid);
                 otherBot.bids(otherBid, playerBid);

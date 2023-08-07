@@ -3,5 +3,7 @@ package engine;
 public enum StrategyName {
     DEFAULT,
     FLIP,
-    CONSTANT
+    CONSTANT,
+    VALUE_BASED,
+    GREEDY
 }
