@@ -7,7 +7,7 @@ public class GreedyStrategy extends Strategy{
     @Override
     protected int calculateBidSize(BotState playerState){
 
-        return playerState.getCash() / ((playerState.getAvailableQuantity() / 4) + 2);
+        return playerState.getCash() / ((playerState.getAvailableQuantity() / 4) + 1);
 
     }
 
