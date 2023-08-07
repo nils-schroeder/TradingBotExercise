@@ -13,6 +13,8 @@ public class StrategyFactory {
                 return new ValueBasedStrategy();
             case GREEDY:
                 return new GreedyStrategy();
+            case INVERSE_GREEDY:
+                return new InverseGreedyStrategy();
             default:
                 return new FlipStrategy();
         }

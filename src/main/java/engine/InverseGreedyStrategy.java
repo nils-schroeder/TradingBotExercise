@@ -2,7 +2,7 @@ package engine;
 
 import trading.BotState;
 
-public class GreedyStrategy extends Strategy{
+public class InverseGreedyStrategy extends Strategy{
 
     @Override
     protected int calculateBidSize(BotState playerState){

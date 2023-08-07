@@ -5,5 +5,6 @@ public enum StrategyName {
     FLIP,
     CONSTANT,
     VALUE_BASED,
-    GREEDY
+    GREEDY,
+    INVERSE_GREEDY,
 }
