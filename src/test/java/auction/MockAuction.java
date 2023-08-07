@@ -11,6 +11,15 @@ public class MockAuction {
 
     private final int quantityTotal;
     private final int cashPerBot;
+
+    public Bot getPlayerBot() {
+        return playerBot;
+    }
+
+    public Bot getOtherBot() {
+        return otherBot;
+    }
+
     private Bot playerBot;
     private Bot otherBot;
 
@@ -28,8 +37,8 @@ public class MockAuction {
         this.quantityTotal = settings.quantityTotal();
         this.cashPerBot = settings.cashPerBot();
 
-        this.playerBot = new Bot(settings.playerStrategyName());
-        this.otherBot = new Bot(settings.otherStrategyName());
+        this.playerBot = new Bot(settings.playerStrategyClass());
+        this.otherBot = new Bot(settings.otherStrategyClass());
     }
 
     public MockAuction(int quantityTotal, int cashPerBot, Bot playerBot, Bot otherBot){

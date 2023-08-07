@@ -1,23 +1,29 @@
 package engine;
 
+import java.lang.reflect.InvocationTargetException;
+import engine.Strategy;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 public class StrategyFactory {
 
-    public static Strategy createStrategy(StrategyName name) {
+    private static final Logger logger = LogManager.getLogger();
 
-        switch (name) {
-            case FLIP:
-                return new FlipStrategy();
-            case CONSTANT:
-                return new ConstantStrategy();
-            case VALUE_BASED:
-                return new ValueBasedStrategy();
-            case GREEDY:
-                return new GreedyStrategy();
-            case INVERSE_GREEDY:
-                return new InverseGreedyStrategy();
-            default:
-                return new FlipStrategy();
+    public static Strategy createStrategy(Class<? extends Strategy> strategyClass) {
+
+        try {
+
+            return strategyClass.getDeclaredConstructor().newInstance();
+
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+
+            logger.error(e.getMessage());
+
+            return new FlipStrategy();
+
         }
+
     }
 
 }

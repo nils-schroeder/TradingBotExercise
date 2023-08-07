@@ -3,6 +3,7 @@ package auction;
 
 import engine.FlipStrategy;
 import engine.MockRougeBot;
+import engine.MockRougeStrategy;
 import engine.StrategyName;
 import org.junit.jupiter.api.Test;
 import trading.Bot;
@@ -40,15 +41,14 @@ public class MockAuctionTest {
     @Test
     public void MockAuctionRougeStrategyTest(){
 
-        Bot rougeBot = new MockRougeBot();
-        Bot otherBot = new Bot();
-
-        MockAuction auction = new MockAuction(100, 10000, rougeBot, otherBot);
+        MockAuction auction = new MockAuction(
+                new MockAuctionSetting(100, 10000, MockRougeStrategy.class, FlipStrategy.class)
+        );
 
         auction.run();
 
-        assertEquals(10000, rougeBot.getPlayerState().getCash());
-        assertEquals(10000, otherBot.getOtherState().getCash());
+        assertEquals(10000, auction.getPlayerBot().getPlayerState().getCash());
+        assertEquals(10000, auction.getOtherBot().getOtherState().getCash());
 
     }
 

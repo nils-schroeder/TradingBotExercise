@@ -12,7 +12,7 @@ class BotTest {
 
     @BeforeEach
     void setUp() {
-        bot = new Bot(StrategyName.DEFAULT);
+        bot = new Bot();
     }
 
     @Test
@@ -22,7 +22,6 @@ class BotTest {
         assertEquals(1000, bot.getPlayerState().getStartCash());
         assertEquals(100, bot.getOtherState().getStartQuantity());
         assertEquals(1000, bot.getOtherState().getStartCash());
-        assertEquals(StrategyName.DEFAULT, bot.getStrategyName());
     }
 
     @Test

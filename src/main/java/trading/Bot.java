@@ -1,6 +1,7 @@
 package trading;
 
 import auction.Bidder;
+import engine.FlipStrategy;
 import engine.Strategy;
 import engine.StrategyFactory;
 import engine.StrategyName;
@@ -19,8 +20,10 @@ public class Bot implements Bidder{
         return otherState;
     }
 
-    public StrategyName getStrategyName() {
-        return strategyName;
+    public String getStrategyName() {
+
+        return strategyClass.getName();
+
     }
 
     protected BotState playerState;
@@ -28,16 +31,18 @@ public class Bot implements Bidder{
     protected Strategy strategy;
     private static final Logger logger = LogManager.getLogger();
 
-    private Class<Strategy> strategyClass;
-
-    protected final StrategyName strategyName;
+    private Class<? extends Strategy> strategyClass;
 
     public Bot(){
-        this.strategyName = StrategyName.DEFAULT;
+
+        this.strategyClass = FlipStrategy.class;
+
     }
 
-    public Bot(StrategyName strategyName){
-        this.strategyName = strategyName;
+    public Bot(Class<? extends Strategy> strategyClass){
+
+        this.strategyClass = strategyClass;
+
     }
 
     @Override
@@ -58,7 +63,7 @@ public class Bot implements Bidder{
         );
 
         strategy = StrategyFactory
-                .createStrategy(strategyName)
+                .createStrategy(strategyClass)
                 .init(playerState, otherState);
 
     }
