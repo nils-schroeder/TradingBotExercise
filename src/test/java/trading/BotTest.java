@@ -1,6 +1,5 @@
 package trading;
 
-import engine.StrategyName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

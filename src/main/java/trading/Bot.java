@@ -4,11 +4,8 @@ import auction.Bidder;
 import engine.FlipStrategy;
 import engine.Strategy;
 import engine.StrategyFactory;
-import engine.StrategyName;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.SplittableRandom;
 
 public class Bot implements Bidder{
 
@@ -31,7 +28,7 @@ public class Bot implements Bidder{
     protected Strategy strategy;
     private static final Logger logger = LogManager.getLogger();
 
-    private Class<? extends Strategy> strategyClass;
+    private final Class<? extends Strategy> strategyClass;
 
     public Bot(){
 
