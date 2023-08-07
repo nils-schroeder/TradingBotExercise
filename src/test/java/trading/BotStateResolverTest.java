@@ -55,4 +55,10 @@ class BotStateResolverTest {
         assertThrows(IllegalArgumentException.class, () -> BotStateResolver.resolveBids(-100, 500, botState1, botState2));
         assertThrows(IllegalArgumentException.class, () -> BotStateResolver.resolveBids(500, -100, botState1, botState2));
     }
+
+    @Test
+    void testResolveBidsTooMuchCash() {
+        assertThrows(IllegalArgumentException.class, () -> BotStateResolver.resolveBids(2000, 500, botState1, botState2));
+        assertThrows(IllegalArgumentException.class, () -> BotStateResolver.resolveBids(500, 2000, botState1, botState2));
+    }
 }

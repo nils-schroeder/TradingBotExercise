@@ -12,7 +12,17 @@ public class BotStateResolver {
 
     private static final Logger logger = LogManager.getLogger();
 
-    public static void resolveBids(int ownCash, int otherCash, BotState ownState, BotState otherState) {
+    public static void resolveBids(int ownCash, int otherCash, BotState ownState, BotState otherState) throws IllegalArgumentException {
+
+        if(ownCash < 0 || otherCash < 0){
+
+            throw new IllegalArgumentException("Bids cannot be negative");
+
+        }else if( ownCash > ownState.getStartCash() || otherCash > otherState.getStartCash()){
+
+            throw new IllegalArgumentException("You can only bid up to your cash");
+
+        }
 
         int ownAward = LOSS_REWARD;
         int otherAward = LOSS_REWARD;
@@ -34,7 +44,6 @@ public class BotStateResolver {
 
         int totalPayout = ownAward + otherAward;
 
-        try{
             ownState.update(
                     ownAward,
                     ownCash,
@@ -46,13 +55,6 @@ public class BotStateResolver {
                     otherCash,
                     totalPayout
             );
-
-        }catch(IllegalArgumentException e){
-
-            logger.error(e.getMessage());
-
-        }
-
     }
 
 }

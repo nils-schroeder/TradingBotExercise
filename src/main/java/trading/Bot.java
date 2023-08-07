@@ -4,6 +4,8 @@ import auction.Bidder;
 import engine.Strategy;
 import engine.StrategyFactory;
 import engine.StrategyName;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Bot implements Bidder{
 
@@ -22,6 +24,7 @@ public class Bot implements Bidder{
     private BotState playerState;
     private BotState otherState;
     private Strategy strategy;
+    private static final Logger logger = LogManager.getLogger();
 
     private final StrategyName strategyName;
 
@@ -60,6 +63,9 @@ public class Bot implements Bidder{
         );
 
         if(bid > playerState.getCash() || bid < 0){
+
+            logger.error("Bid is not valid");
+
             return 0;
         }else{
             return bid;
@@ -69,12 +75,22 @@ public class Bot implements Bidder{
     @Override
     public void bids(int own, int other) {
 
-        BotStateResolver.resolveBids(
+        try{
+
+            BotStateResolver.resolveBids(
                     own,
                     other,
                     playerState,
                     otherState
             );
+
+        }catch (IllegalArgumentException e){
+
+            logger.error(e.getMessage());
+
+        }
+
+
 
     }
 }
