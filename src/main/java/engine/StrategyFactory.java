@@ -12,7 +12,7 @@ public class StrategyFactory {
             case VALUE_BASED:
                 return new ValueBasedStrategy();
             case GREEDY:
-                return new ValueBasedStrategy(1);
+                return new GreedyStrategy();
             default:
                 return new FlipStrategy();
         }

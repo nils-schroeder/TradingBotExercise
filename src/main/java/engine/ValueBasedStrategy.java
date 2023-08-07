@@ -13,6 +13,12 @@ public class ValueBasedStrategy extends Strategy {
         this.greedFactor = greedFactor;
     }
 
+    private double gameState(int quantityLeft, int startQuantity) {
+
+        return (double) quantityLeft / startQuantity;
+
+    }
+
     // TODO: add if x > 1 clause to avoid performance issues
     private double bellFunction(double x) {
 
@@ -72,17 +78,25 @@ public class ValueBasedStrategy extends Strategy {
     @Override
     public int determineBid(BotState playerState, BotState otherState) {
 
-        //updateBidSize(playerState);
+        double gameState = this.gameState(playerState.getAvailableQuantity(), playerState.getStartQuantity());
 
-        int expectedEnemyBidSize = calculateBidSize(otherState);
+        //early game
+        if(gameState > 0.75){
 
-        int bidBase = (int) (bidSize * winDistanceFactor(playerState));
+            //goal: approximate enemy strategy, don't waste too much
+            return 0;
 
-        if(playerState.getCash() >= bidBase){
-            return bidBase;
+        //mid game: secure as many points as possible
+        }else if(gameState > 0.25){
+
+            return 0;
+
+        //late game: if lead is big, conserve cash, if behind take risks
         } else {
+
             return 0;
         }
+
 
     }
 }
