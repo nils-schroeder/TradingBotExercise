@@ -56,7 +56,11 @@ public class BotState {
 
     }
 
-    public void update(int payout, int paidCash, int totalPayout){
+    public void update(int payout, int paidCash, int totalPayout) throws IllegalArgumentException{
+
+        if(payout < 0 || paidCash < 0 || totalPayout < 0){
+            throw new IllegalArgumentException("Negative values are not allowed");
+        }
 
         this.quantity += payout;
         this.availableQuantity -= totalPayout;
@@ -68,8 +72,6 @@ public class BotState {
                 payout
             )
         );
-
-       // logger.debug("Updated state: [{}]", this.toString());
 
     }
 

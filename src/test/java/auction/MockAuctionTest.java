@@ -2,7 +2,7 @@ package auction;
 
 
 import engine.StrategyName;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import trading.Bot;
 
 import java.util.ArrayList;
