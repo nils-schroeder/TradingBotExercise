@@ -21,12 +21,12 @@ public class Bot implements Bidder{
         return strategyName;
     }
 
-    private BotState playerState;
-    private BotState otherState;
-    private Strategy strategy;
+    protected BotState playerState;
+    protected BotState otherState;
+    protected Strategy strategy;
     private static final Logger logger = LogManager.getLogger();
 
-    private final StrategyName strategyName;
+    protected final StrategyName strategyName;
 
     public Bot(){
         this.strategyName = StrategyName.DEFAULT;

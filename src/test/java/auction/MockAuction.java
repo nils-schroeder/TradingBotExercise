@@ -32,12 +32,12 @@ public class MockAuction {
         this.otherBot = new Bot(settings.otherStrategyName());
     }
 
-    public MockAuction(int quantityTotal, int cashPerBot, StrategyName playerStrategyName, StrategyName otherStrategyName){
+    public MockAuction(int quantityTotal, int cashPerBot, Bot playerBot, Bot otherBot){
         this.quantityTotal = quantityTotal;
         this.cashPerBot = cashPerBot;
 
-        this.playerBot = new Bot(playerStrategyName);
-        this.otherBot = new Bot(otherStrategyName);
+        this.playerBot = playerBot;
+        this.otherBot = otherBot;
     }
 
     public void run(){
