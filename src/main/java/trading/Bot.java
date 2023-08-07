@@ -39,6 +39,10 @@ public class Bot implements Bidder{
     @Override
     public void init(int quantity, int cash) {
 
+        if(quantity < BotStateResolver.WIN_REWARD || cash < 0){
+            throw new IllegalArgumentException("Quantity and cash must be positive");
+        }
+
         playerState = new BotState(
                 quantity,
                 cash
@@ -75,22 +79,16 @@ public class Bot implements Bidder{
     @Override
     public void bids(int own, int other) {
 
-        try{
-
-            BotStateResolver.resolveBids(
-                    own,
-                    other,
-                    playerState,
-                    otherState
-            );
-
-        }catch (IllegalArgumentException e){
-
-            logger.error(e.getMessage());
-
+        if(own < 0 || other < 0){
+            throw new IllegalArgumentException("Bids cannot be negative");
         }
 
-
+        BotStateResolver.resolveBids(
+                own,
+                other,
+                playerState,
+                otherState
+        );
 
     }
 }
