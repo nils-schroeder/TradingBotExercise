@@ -54,10 +54,16 @@ public class Bot implements Bidder{
 
     @Override
     public int placeBid() {
-        return strategy.determineBid(
+        int bid = strategy.determineBid(
                 playerState,
                 otherState
         );
+
+        if(bid > playerState.getCash() || bid < 0){
+            return 0;
+        }else{
+            return bid;
+        }
     }
 
     @Override
