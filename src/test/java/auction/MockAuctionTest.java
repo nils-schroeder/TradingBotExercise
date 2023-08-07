@@ -2,8 +2,9 @@ package auction;
 
 
 import engine.FlipStrategy;
-import engine.MockRougeStrategy;
+import engine.Strategy;
 import org.junit.jupiter.api.Test;
+import trading.BotState;
 
 import java.util.List;
 
@@ -41,7 +42,25 @@ public class MockAuctionTest {
         auction.run();
 
         assertEquals(10000, auction.getPlayerBot().getPlayerState().getCash());
-        assertEquals(10000, auction.getOtherBot().getOtherState().getCash());
+        assertEquals(10000, auction.getOtherBot().getPlayerState().getCash());
+
+    }
+
+    private class MockRougeStrategy extends Strategy {
+
+        @Override
+        public int determineBid(BotState playerState, BotState otherState) {
+
+            if(Math.random() > 0.5){
+
+                return playerState.getCash() * 2;
+
+            }else {
+
+                return -1 * playerState.getCash();
+
+            }
+        }
 
     }
 
