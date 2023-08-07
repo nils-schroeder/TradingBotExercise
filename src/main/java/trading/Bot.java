@@ -7,6 +7,8 @@ import engine.StrategyName;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.SplittableRandom;
+
 public class Bot implements Bidder{
 
     public BotState getPlayerState() {
@@ -25,6 +27,8 @@ public class Bot implements Bidder{
     protected BotState otherState;
     protected Strategy strategy;
     private static final Logger logger = LogManager.getLogger();
+
+    private Class<Strategy> strategyClass;
 
     protected final StrategyName strategyName;
 
