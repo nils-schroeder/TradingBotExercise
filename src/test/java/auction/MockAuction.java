@@ -24,14 +24,6 @@ public class MockAuction {
 
     private static final Logger logger = LogManager.getLogger();
 
-    public MockAuction(int quantityTotal, int cashPerBot){
-        this.quantityTotal = quantityTotal;
-        this.cashPerBot = cashPerBot;
-
-        this.playerBot = new Bot();
-        this.otherBot = new Bot();
-    }
-
     public MockAuction(MockAuctionSetting settings){
         this.quantityTotal = settings.quantityTotal();
         this.cashPerBot = settings.cashPerBot();
@@ -55,7 +47,7 @@ public class MockAuction {
         playerBot.init(quantityTotal, cashPerBot);
         otherBot.init(quantityTotal, cashPerBot);
 
-        IntStream.range(0, (int) quantityTotal / 2).forEach(
+        IntStream.range(0, quantityTotal / 2).forEach(
             i -> {
                 int playerBid = playerBot.placeBid();
                 int otherBid = otherBot.placeBid();
