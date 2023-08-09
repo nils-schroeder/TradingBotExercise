@@ -3,6 +3,7 @@ package trading;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +23,7 @@ class BotStateTest {
         botState.update(20, 60, 15);
         botState.update(25, 70, 20);
 
-        var latestBids = botState.getLatestBids(2).collect(Collectors.toList());
+        List<Integer> latestBids = botState.getLatestBids(2);
 
         assertEquals(2, latestBids.size());
         assertEquals(70, latestBids.get(0));

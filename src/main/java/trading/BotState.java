@@ -44,19 +44,19 @@ public class BotState {
         return history;
     }
 
-    public Stream<Integer> getLatestBids() {
+    public List<Integer> getLatestBids() {
 
         return getLatestBids(history.size());
 
     }
 
-    public Stream<Integer> getLatestBids(int n) {
+    public List<Integer> getLatestBids(int n) {
 
         return IntStream.rangeClosed(
                 1, Math.min(history.size(), n)
         ).mapToObj(
                 i -> history.get(history.size() - i).cash()
-        );
+        ).toList();
 
     }
 
