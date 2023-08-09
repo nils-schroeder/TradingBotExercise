@@ -1,8 +1,8 @@
 package auction;
 
-import engine.StrategyName;
+import engine.Strategy;
 
 public record MockAuctionSetting(int quantityTotal,
                                  int cashPerBot,
-                                 StrategyName playerStrategyName,
-                                 StrategyName otherStrategyName) {}
+                                 Class<? extends Strategy> playerStrategyClass,
+                                 Class<? extends Strategy> otherStrategyClass) {}

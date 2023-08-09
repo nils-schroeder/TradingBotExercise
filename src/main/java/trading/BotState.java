@@ -4,6 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class BotState {
 
@@ -37,11 +40,27 @@ public class BotState {
 
     private int availableQuantity;
 
-    public ArrayList<BidLogEntry> getHistory() {
+    public List<BidLogEntry> getHistory() {
         return history;
     }
 
-    private final ArrayList<BidLogEntry> history;
+    public List<Integer> getLatestBids() {
+
+        return getLatestBids(history.size());
+
+    }
+
+    public List<Integer> getLatestBids(int n) {
+
+        return IntStream.rangeClosed(
+                1, Math.min(history.size(), n)
+        ).mapToObj(
+                i -> history.get(history.size() - i).cash()
+        ).toList();
+
+    }
+
+    private final List<BidLogEntry> history;
 
     public BotState(int startQuantity, int startCash) {
 
@@ -56,7 +75,11 @@ public class BotState {
 
     }
 
-    public void update(int payout, int paidCash, int totalPayout){
+    public void update(int payout, int paidCash, int totalPayout) throws IllegalArgumentException{
+
+        if(payout < 0 || paidCash < 0 || totalPayout < 0){
+            throw new IllegalArgumentException("Negative values are not allowed");
+        }
 
         this.quantity += payout;
         this.availableQuantity -= totalPayout;
@@ -68,8 +91,6 @@ public class BotState {
                 payout
             )
         );
-
-       // logger.debug("Updated state: [{}]", this.toString());
 
     }
 

@@ -1,6 +1,6 @@
 package auction;
 
-import engine.StrategyName;
+import engine.Strategy;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import trading.Bot;
@@ -11,48 +11,49 @@ public class MockAuction {
 
     private final int quantityTotal;
     private final int cashPerBot;
+
+    public Bot getPlayerBot() {
+        return playerBot;
+    }
+
+    public Bot getOtherBot() {
+        return otherBot;
+    }
+
     private Bot playerBot;
     private Bot otherBot;
 
     private static final Logger logger = LogManager.getLogger();
 
-    public MockAuction(int quantityTotal, int cashPerBot){
-        this.quantityTotal = quantityTotal;
-        this.cashPerBot = cashPerBot;
-
-        this.playerBot = new Bot();
-        this.otherBot = new Bot();
-    }
-
     public MockAuction(MockAuctionSetting settings){
         this.quantityTotal = settings.quantityTotal();
         this.cashPerBot = settings.cashPerBot();
 
-        this.playerBot = new Bot(settings.playerStrategyName());
-        this.otherBot = new Bot(settings.otherStrategyName());
+        this.playerBot = new Bot(settings.playerStrategyClass());
+        this.otherBot = new Bot(settings.otherStrategyClass());
     }
 
-    public MockAuction(int quantityTotal, int cashPerBot, StrategyName playerStrategyName, StrategyName otherStrategyName){
+    public MockAuction(int quantityTotal, int cashPerBot, Bot playerBot, Bot otherBot){
         this.quantityTotal = quantityTotal;
         this.cashPerBot = cashPerBot;
 
-        this.playerBot = new Bot(playerStrategyName);
-        this.otherBot = new Bot(otherStrategyName);
+        this.playerBot = playerBot;
+        this.otherBot = otherBot;
     }
 
-    public void run(){
+    public Class<? extends Strategy> run(){
 
-        logger.info("Running MockAuction with quantityTotal: [{}], cashPerBot: [{}]", quantityTotal, cashPerBot);
+        logger.debug("Running MockAuction with quantityTotal: [{}], cashPerBot: [{}]", quantityTotal, cashPerBot);
 
         playerBot.init(quantityTotal, cashPerBot);
         otherBot.init(quantityTotal, cashPerBot);
 
-        IntStream.range(0, (int) quantityTotal / 2).forEach(
+        IntStream.range(0, quantityTotal / 2).forEach(
             i -> {
                 int playerBid = playerBot.placeBid();
                 int otherBid = otherBot.placeBid();
 
-                logger.info("[{}] {} bid: [{}], {} bid: [{}]",
+                logger.debug("[{}] {} bid: [{}], {} bid: [{}]",
                         i,
                         playerBot.getStrategyName(),
                         playerBid,
@@ -65,7 +66,7 @@ public class MockAuction {
             }
         );
 
-        logger.info("RESULT: {}: [Quantity: {} | Cash: {}], {}: [Quantity: {} | Cash: {}]",
+        logger.debug("RESULT: {}: [Quantity: {} | Cash: {}], {}: [Quantity: {} | Cash: {}]",
                 playerBot.getStrategyName(),
                 playerBot.getPlayerState().getQuantity(),
                 playerBot.getPlayerState().getCash(),
@@ -74,6 +75,27 @@ public class MockAuction {
                 otherBot.getPlayerState().getCash()
         );
 
+        if(playerBot.getPlayerState().getQuantity() > otherBot.getPlayerState().getQuantity()){
+
+            return playerBot.getStrategyClass();
+
+        } else if(playerBot.getPlayerState().getQuantity() < otherBot.getPlayerState().getQuantity()){
+
+            return otherBot.getStrategyClass();
+
+        } else {
+
+            if(playerBot.getPlayerState().getCash() > otherBot.getPlayerState().getCash()){
+
+                return playerBot.getStrategyClass();
+
+            } else if(playerBot.getPlayerState().getCash() < otherBot.getPlayerState().getCash()){
+
+                return otherBot.getStrategyClass();
+            }
+
+            return null;
+        }
 
 
     }

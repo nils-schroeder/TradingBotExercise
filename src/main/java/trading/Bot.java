@@ -1,9 +1,12 @@
 package trading;
 
 import auction.Bidder;
+import engine.FlipStrategy;
+import engine.MixedStrategy;
 import engine.Strategy;
 import engine.StrategyFactory;
-import engine.StrategyName;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Bot implements Bidder{
 
@@ -15,26 +18,41 @@ public class Bot implements Bidder{
         return otherState;
     }
 
-    public StrategyName getStrategyName() {
-        return strategyName;
+    public Class<? extends Strategy> getStrategyClass() {
+        return strategyClass;
     }
 
-    private BotState playerState;
-    private BotState otherState;
-    private Strategy strategy;
+    public String getStrategyName(){
 
-    private final StrategyName strategyName;
+        return strategyClass.getSimpleName();
+
+    }
+
+    protected BotState playerState;
+    protected BotState otherState;
+    protected Strategy strategy;
+    private static final Logger logger = LogManager.getLogger();
+
+    private final Class<? extends Strategy> strategyClass;
 
     public Bot(){
-        this.strategyName = StrategyName.DEFAULT;
+
+        this.strategyClass = MixedStrategy.class;
+
     }
 
-    public Bot(StrategyName strategyName){
-        this.strategyName = strategyName;
+    public Bot(Class<? extends Strategy> strategyClass){
+
+        this.strategyClass = strategyClass;
+
     }
 
     @Override
     public void init(int quantity, int cash) {
+
+        if(quantity < BotStateResolver.WIN_REWARD || cash < 0){
+            throw new IllegalArgumentException("Quantity and cash must be positive");
+        }
 
         playerState = new BotState(
                 quantity,
@@ -47,28 +65,41 @@ public class Bot implements Bidder{
         );
 
         strategy = StrategyFactory
-                .createStrategy(strategyName)
+                .createStrategy(strategyClass)
                 .init(playerState, otherState);
 
     }
 
     @Override
     public int placeBid() {
-        return strategy.determineBid(
+        int bid = strategy.determineBid(
                 playerState,
                 otherState
         );
+
+        if(bid > playerState.getCash() || bid < 0){
+
+            logger.error("Bid is not valid");
+
+            return 0;
+        }else{
+            return bid;
+        }
     }
 
     @Override
     public void bids(int own, int other) {
 
+        if(own < 0 || other < 0){
+            throw new IllegalArgumentException("Bids cannot be negative");
+        }
+
         BotStateResolver.resolveBids(
-                    own,
-                    other,
-                    playerState,
-                    otherState
-            );
+                own,
+                other,
+                playerState,
+                otherState
+        );
 
     }
 }
