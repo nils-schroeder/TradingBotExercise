@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a trading bot that uses the Optimax API to trade on the Optimax exchange.
+This is a trading bot that uses the bidder API to trade on virtual exchange.
 
 ## Getting Started
 
