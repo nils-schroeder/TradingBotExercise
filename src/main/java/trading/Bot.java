@@ -17,9 +17,13 @@ public class Bot implements Bidder{
         return otherState;
     }
 
-    public String getStrategyName() {
+    public Class<? extends Strategy> getStrategyClass() {
+        return strategyClass;
+    }
 
-        return strategyClass.getName();
+    public String getStrategyName(){
+
+        return strategyClass.getSimpleName();
 
     }
 

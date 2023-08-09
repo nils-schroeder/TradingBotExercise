@@ -2,6 +2,9 @@ package trading;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.stream.Collectors;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BotStateTest {
@@ -11,6 +14,19 @@ class BotStateTest {
     @BeforeEach
     void setUp() {
         botState = new BotState(100, 1000);
+    }
+
+    @Test
+    void getLatestBidsTest() {
+        botState.update(10, 50, 10);
+        botState.update(20, 60, 15);
+        botState.update(25, 70, 20);
+
+        var latestBids = botState.getLatestBids(2).collect(Collectors.toList());
+
+        assertEquals(2, latestBids.size());
+        assertEquals(70, latestBids.get(0));
+        assertEquals(60, latestBids.get(1));
     }
 
     @Test

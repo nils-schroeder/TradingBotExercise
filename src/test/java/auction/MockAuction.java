@@ -1,5 +1,6 @@
 package auction;
 
+import engine.Strategy;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import trading.Bot;
@@ -40,7 +41,7 @@ public class MockAuction {
         this.otherBot = otherBot;
     }
 
-    public void run(){
+    public Class<? extends Strategy> run(){
 
         logger.info("Running MockAuction with quantityTotal: [{}], cashPerBot: [{}]", quantityTotal, cashPerBot);
 
@@ -74,6 +75,27 @@ public class MockAuction {
                 otherBot.getPlayerState().getCash()
         );
 
+        if(playerBot.getPlayerState().getQuantity() > otherBot.getPlayerState().getQuantity()){
+
+            return playerBot.getStrategyClass();
+
+        } else if(playerBot.getPlayerState().getQuantity() < otherBot.getPlayerState().getQuantity()){
+
+            return otherBot.getStrategyClass();
+
+        } else {
+
+            if(playerBot.getPlayerState().getCash() > otherBot.getPlayerState().getCash()){
+
+                return playerBot.getStrategyClass();
+
+            } else if(playerBot.getPlayerState().getCash() < otherBot.getPlayerState().getCash()){
+
+                return otherBot.getStrategyClass();
+            }
+
+            return null;
+        }
 
 
     }

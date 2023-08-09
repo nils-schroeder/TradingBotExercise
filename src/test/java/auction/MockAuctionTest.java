@@ -1,29 +1,30 @@
 package auction;
 
 
-import engine.ConstantStrategy;
-import engine.FlipStrategy;
-import engine.Strategy;
+import engine.*;
 import org.junit.jupiter.api.Test;
-import trading.BotState;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MockAuctionTest {
 
     public static final List<MockAuctionSetting> mockAuctionSetups = List.of(
-            new MockAuctionSetting(100, 10000, FlipStrategy.class, FlipStrategy.class)
+            new MockAuctionSetting(1000, 100000, MixedStrategy.class, ConstantStrategy.class),
+            new MockAuctionSetting(1000, 100000, MixedStrategy.class, FlipStrategy.class),
+            new MockAuctionSetting(1000, 100000, MixedStrategy.class, GreedyStrategy.class),
+            new MockAuctionSetting(1000, 100000, MixedStrategy.class, InverseGreedyStrategy.class)
     );
+
 
     @Test
     public void MockAuctionIntegrationTest(){
-
         mockAuctionSetups.forEach(
             mockAuctionSetting -> {
                 MockAuction auction = new MockAuction(mockAuctionSetting);
-                auction.run();
+                Class<?> winningStrategy = auction.run();
+                assertEquals(MixedStrategy.class, winningStrategy);
             }
         );
     }
