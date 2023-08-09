@@ -4,6 +4,8 @@
 
 This is a trading bot that uses the bidder API to trade on virtual exchange.
 
+The repository is a maven project and can be imported. 
+
 ## Getting Started
 
 

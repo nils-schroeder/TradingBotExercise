@@ -1,7 +1,6 @@
 package trading;
 
 import auction.Bidder;
-import engine.FlipStrategy;
 import engine.MixedStrategy;
 import engine.Strategy;
 import engine.StrategyFactory;
