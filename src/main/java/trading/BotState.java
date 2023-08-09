@@ -1,69 +1,31 @@
 package trading;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
+/**
+ * Represents the state of a trading bot, including its starting resources,
+ * current resources, and a history of bids.
+ */
 public class BotState {
-
-    // private static final Logger logger = LogManager.getLogger();
-
-    public int getStartQuantity() {
-        return startQuantity;
-    }
-
-    public int getStartCash() {
-        return startCash;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public int getCash() {
-        return cash;
-    }
-
-    public int getAvailableQuantity() {
-        return availableQuantity;
-    }
 
     private final int startQuantity;
     private final int startCash;
 
     private int quantity;
     private int cash;
-
     private int availableQuantity;
-
-    public List<BidLogEntry> getHistory() {
-        return history;
-    }
-
-    public List<Integer> getLatestBids() {
-
-        return getLatestBids(history.size());
-
-    }
-
-    public List<Integer> getLatestBids(int n) {
-
-        return IntStream.rangeClosed(
-                1, Math.min(history.size(), n)
-        ).mapToObj(
-                i -> history.get(history.size() - i).cash()
-        ).toList();
-
-    }
 
     private final List<BidLogEntry> history;
 
+    /**
+     * Constructor initializing the bot state with starting quantity and cash.
+     *
+     * @param startQuantity Initial quantity available for bidding.
+     * @param startCash     Initial cash for the bot.
+     */
     public BotState(int startQuantity, int startCash) {
-
         this.startQuantity = startQuantity;
         this.startCash = startCash;
 
@@ -72,12 +34,96 @@ public class BotState {
         this.cash = startCash;
 
         this.history = new ArrayList<>();
-
     }
 
-    public void update(int payout, int paidCash, int totalPayout) throws IllegalArgumentException{
+    /**
+     * Gets the starting quantity available for bidding when the bot was initialized.
+     *
+     * @return Initial quantity for the bot.
+     */
+    public int getStartQuantity() {
+        return startQuantity;
+    }
 
-        if(payout < 0 || paidCash < 0 || totalPayout < 0){
+    /**
+     * Gets the starting cash available for the bot when it was initialized.
+     *
+     * @return Initial cash for the bot.
+     */
+    public int getStartCash() {
+        return startCash;
+    }
+
+    /**
+     * Gets the current quantity held by the bot.
+     *
+     * @return Current quantity of the bot.
+     */
+    public int getQuantity() {
+        return quantity;
+    }
+
+    /**
+     * Gets the current cash held by the bot.
+     *
+     * @return Current cash of the bot.
+     */
+    public int getCash() {
+        return cash;
+    }
+
+    /**
+     * Gets the quantity left available for the bot to bid on.
+     *
+     * @return Available quantity for bidding.
+     */
+    public int getAvailableQuantity() {
+        return availableQuantity;
+    }
+
+
+    /**
+     * Returns the bid history of the bot.
+     *
+     * @return A list of bid log entries.
+     */
+    public List<BidLogEntry> getHistory() {
+        return history;
+    }
+
+    /**
+     * Retrieves all latest bids from the bot's history.
+     *
+     * @return A list of bid amounts.
+     */
+    public List<Integer> getLatestBids() {
+        return getLatestBids(history.size());
+    }
+
+    /**
+     * Retrieves the latest 'n' bids from the bot's history.
+     *
+     * @param n Number of latest bids to retrieve.
+     * @return A list of bid amounts (the latest bid will be at index 0).
+     */
+    public List<Integer> getLatestBids(int n) {
+        return IntStream.rangeClosed(
+                1, Math.min(history.size(), n)
+        ).mapToObj(
+                i -> history.get(history.size() - i).cash()
+        ).toList();
+    }
+
+    /**
+     * Updates the bot's state after a trading round.
+     *
+     * @param payout     Quantity gained by the bot.
+     * @param paidCash   Cash paid by the bot.
+     * @param totalPayout Total payout in the round.
+     * @throws IllegalArgumentException If any provided value is negative.
+     */
+    public void update(int payout, int paidCash, int totalPayout) throws IllegalArgumentException {
+        if (payout < 0 || paidCash < 0 || totalPayout < 0) {
             throw new IllegalArgumentException("Negative values are not allowed");
         }
 
@@ -86,12 +132,8 @@ public class BotState {
         this.cash -= paidCash;
 
         this.history.add(
-            new BidLogEntry(
-                paidCash,
-                payout
-            )
+                new BidLogEntry(paidCash, payout)
         );
-
     }
 
     @Override
