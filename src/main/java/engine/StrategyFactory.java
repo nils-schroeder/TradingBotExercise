@@ -19,7 +19,7 @@ public class StrategyFactory {
 
             logger.error(e.getMessage());
 
-            return new FlipStrategy();
+            return new MixedStrategy();
 
         }
 

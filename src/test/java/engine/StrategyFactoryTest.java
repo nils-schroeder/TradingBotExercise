@@ -14,6 +14,6 @@ class StrategyFactoryTest {
 
     @Test
     void testCreateStrategyWithErrorStrategy() {
-        assertTrue(StrategyFactory.createStrategy(Strategy.class) instanceof FlipStrategy);
+        assertTrue(StrategyFactory.createStrategy(Strategy.class) instanceof MixedStrategy);
     }
 }

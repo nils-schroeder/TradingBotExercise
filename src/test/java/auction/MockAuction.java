@@ -43,7 +43,7 @@ public class MockAuction {
 
     public Class<? extends Strategy> run(){
 
-        logger.info("Running MockAuction with quantityTotal: [{}], cashPerBot: [{}]", quantityTotal, cashPerBot);
+        logger.debug("Running MockAuction with quantityTotal: [{}], cashPerBot: [{}]", quantityTotal, cashPerBot);
 
         playerBot.init(quantityTotal, cashPerBot);
         otherBot.init(quantityTotal, cashPerBot);
@@ -53,7 +53,7 @@ public class MockAuction {
                 int playerBid = playerBot.placeBid();
                 int otherBid = otherBot.placeBid();
 
-                logger.info("[{}] {} bid: [{}], {} bid: [{}]",
+                logger.debug("[{}] {} bid: [{}], {} bid: [{}]",
                         i,
                         playerBot.getStrategyName(),
                         playerBid,
@@ -66,7 +66,7 @@ public class MockAuction {
             }
         );
 
-        logger.info("RESULT: {}: [Quantity: {} | Cash: {}], {}: [Quantity: {} | Cash: {}]",
+        logger.debug("RESULT: {}: [Quantity: {} | Cash: {}], {}: [Quantity: {} | Cash: {}]",
                 playerBot.getStrategyName(),
                 playerBot.getPlayerState().getQuantity(),
                 playerBot.getPlayerState().getCash(),
