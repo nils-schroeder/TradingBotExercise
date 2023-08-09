@@ -2,6 +2,7 @@ package trading;
 
 import auction.Bidder;
 import engine.FlipStrategy;
+import engine.MixedStrategy;
 import engine.Strategy;
 import engine.StrategyFactory;
 import org.apache.logging.log4j.LogManager;
@@ -36,7 +37,7 @@ public class Bot implements Bidder{
 
     public Bot(){
 
-        this.strategyClass = FlipStrategy.class;
+        this.strategyClass = MixedStrategy.class;
 
     }
 
